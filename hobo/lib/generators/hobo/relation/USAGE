@@ -1,0 +1,19 @@
+Description:
+    The relation generator creates relationships for a new model
+
+    The generator takes a model name as its argument.  The model name
+    may be given in CamelCase or under_score and should not be
+    suffixed with anything.
+
+    As additional parameters, the generator will take attribute pairs
+    described by name and type.
+
+Examples:
+    hobo generate relation client hm:projects bt:user
+
+    This will add the following lines to app/models/client.rb:
+
+      has_many :projects
+      belongs_to :user
+
+    Additionally, it will also add "user" to the "attr_accessible" list
