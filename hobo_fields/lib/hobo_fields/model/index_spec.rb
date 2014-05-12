@@ -32,7 +32,7 @@ module HoboFields
       def to_add_statement(new_table_name)
         r = "add_index :#{new_table_name}, #{fields.*.to_sym.inspect}"
         r += ", :unique => true" if unique
-        r += ", :where => #{self.where}"
+        r += ", :where => #{self.where}" if self.where.present?
         if default_name?
           check_name = @model.connection.index_name(self.table, :column => self.fields)
         else
