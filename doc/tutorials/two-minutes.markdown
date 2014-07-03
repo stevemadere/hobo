@@ -18,6 +18,8 @@ For example, these are the steps you would need in Ubuntu 12.04:
         echo 'PATH="$HOME/.gem/bin:$PATH"' >> .bashrc
 
 
+Note: Hobo 2.1 is currently tested against Rails 4.0.6 and Ruby 2.0. Ruby 2.1 should work with the master branch too, but it has not been so thoroughly tested ([read conversation](https://groups.google.com/forum/#!msg/hobousers/Ylugi_lygYs/cVJObcuzXyAJ)).
+
 ## Install Hobo
 
 	gem install hobo
