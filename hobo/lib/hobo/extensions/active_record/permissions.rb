@@ -68,7 +68,7 @@ ActiveRecord::Associations::HasManyThroughAssociation.class_eval do
   end
 
 
-  def create_record_with_user_create(attrs, options, raise = false, &block)
+  def _create_record_with_user_create(attrs, options, raise = false, &block)
     klass = @reflection.klass
     user = acting_user if klass < Hobo::Model
     if user
@@ -86,7 +86,7 @@ ActiveRecord::Associations::HasManyThroughAssociation.class_eval do
       create_record_without_user_create(attrs, options, raise, &block)
     end
   end
-  alias_method_chain :create_record, :user_create
+  alias_method_chain :_create_record, :user_create
 
 
   def insert_record_with_owner_attributes(record, force = true, raise = false)
