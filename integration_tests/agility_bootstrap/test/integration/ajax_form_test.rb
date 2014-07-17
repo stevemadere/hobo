@@ -3,6 +3,8 @@ require 'test_helper'
 require 'capybara'
 require 'capybara/dsl'
 require 'database_cleaner'
+require 'capybara-screenshot'
+require 'capybara-screenshot/minitest'
 #require 'ruby-debug'
 
 Capybara.app = Agility::Application
@@ -11,6 +13,10 @@ DatabaseCleaner.strategy = :truncation
 
 Capybara.register_driver :selenium_chrome do |app|
   Capybara::Selenium::Driver.new(app, :browser => :chrome)
+end
+
+Capybara::Screenshot.register_driver(:selenium_chrome) do |driver, path|
+  driver.browser.save_screenshot(path)
 end
 
 class AjaxFormTest < ActionDispatch::IntegrationTest
@@ -105,11 +111,13 @@ class AjaxFormTest < ActionDispatch::IntegrationTest
     visit "/story_statuses/index4"
     find(".statuses li:nth-child(1) .delete-button").click
     page.driver.browser.switch_to.alert.accept
+    sleep 0.5
     visit "/story_statuses/index4" # Index4 delete-buttons have Ajax disabled (in-place="&false")
     assert_equal 1, all(".statuses li").length
 
     find(".statuses li:nth-child(1) .delete-button").click
     page.driver.browser.switch_to.alert.accept
+    sleep 0.5
     visit "/story_statuses/index4" # Index4 delete-buttons have Ajax disabled (in-place="&false")
     assert has_no_content?("foo4")   # waits for ajax to finish
     assert_equal 0, all(".statuses li").length

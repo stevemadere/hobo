@@ -11,7 +11,7 @@ http://cookbook.hobocentral.net
 
 ### Integration tests
 
-see README in integration_tests/agility
+see README in integration_tests/agility_bootstrap
 
 ### Smoke test
 

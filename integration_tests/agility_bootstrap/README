@@ -13,6 +13,11 @@ breaks something somewhere.
 
 `rake db:migrate`
 
+If you are using a headless virtual machine, you can start a virtual display using Xvfb:
+
+    sudo Xvfb :10 -ac
+    export DISPLAY=:10
+
 # Running
 
 `rake test:integration`
