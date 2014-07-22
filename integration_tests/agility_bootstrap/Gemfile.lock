@@ -23,32 +23,32 @@ GIT
 PATH
   remote: ../..
   specs:
-    dryml (2.1.0)
+    dryml (2.1.1)
       actionpack (~> 4.0.2)
-      hobo_support (= 2.1.0)
-    hobo (2.1.0)
-      dryml (= 2.1.0)
-      hobo_fields (= 2.1.0)
-      hobo_support (= 2.1.0)
+      hobo_support (= 2.1.1)
+    hobo (2.1.1)
+      dryml (= 2.1.1)
+      hobo_fields (= 2.1.1)
+      hobo_support (= 2.1.1)
       hobo_will_paginate
-    hobo_fields (2.1.0)
-      hobo_support (= 2.1.0)
-    hobo_jquery (2.1.0)
-      hobo_rapid (= 2.1.0)
+    hobo_fields (2.1.1)
+      hobo_support (= 2.1.1)
+    hobo_jquery (2.1.1)
+      hobo_rapid (= 2.1.1)
       jquery-rails (~> 2.0)
-    hobo_jquery_ui (2.1.0)
-      hobo (= 2.1.0)
-      hobo_jquery (= 2.1.0)
+    hobo_jquery_ui (2.1.1)
+      hobo (= 2.1.1)
+      hobo_jquery (= 2.1.1)
       jquery-ui-themes (~> 0.0.4)
-    hobo_rapid (2.1.0)
-      hobo (= 2.1.0)
-    hobo_support (2.1.0)
+    hobo_rapid (2.1.1)
+      hobo (= 2.1.1)
+    hobo_support (2.1.1)
       rails (~> 4.0.2)
 
 PATH
   remote: ../../../hobo_bootstrap
   specs:
-    hobo_bootstrap (2.1.0)
+    hobo_bootstrap (2.1.1)
       bootstrap-sass (~> 2.1)
       hobo_jquery (>= 2.0)
       hobo_will_paginate-bootstrap
@@ -56,7 +56,7 @@ PATH
 PATH
   remote: ../../../hobo_bootstrap_ui
   specs:
-    hobo_bootstrap_ui (2.1.0)
+    hobo_bootstrap_ui (2.1.1)
       bootstrap-datepicker-rails
       hobo_bootstrap (>= 2.0)
 
