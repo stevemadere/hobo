@@ -1,17 +1,18 @@
-The README for hobo is in hobo/README.
+The README for hobo is in hobo/README.md
 
-However, you're probably more interested in hobo/CHANGES-1.4.txt or
-http://cookbook.hobocentral.net
+However, if youre reading this, you'll probably be more interested in 
+hobo/CHANGES-2.1.md or [Hobo Central](http://cookbook.hobocentral.net)
 
 ### Unit tests
 
     export HOBODEV=`pwd`
     for f in dryml hobo_support hobo_fields hobo ; do cd $f ; bundle install ; cd .. ; done
     rake test
+    unset HOBODEV
 
 ### Integration tests
 
-see README in integration_tests/agility_bootstrap
+See integration\_tests/agility\_bootstrap/README.md for details
 
 ### Smoke test
 
