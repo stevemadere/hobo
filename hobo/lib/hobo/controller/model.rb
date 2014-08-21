@@ -335,7 +335,7 @@ module Hobo
 
 
     def parse_sort_param(*args)
-      _, desc, field = *params[:sort]._?.match(/^(-)?([a-z_]+(?:\.[a-z_]+)?)$/)
+      _, desc, field = *params[:sort]._?.match(/^(-)?([a-z0-9_]+(?:\.[a-z0-9_]+)?)$/)
 
       if field
         hash = args.extract_options!
