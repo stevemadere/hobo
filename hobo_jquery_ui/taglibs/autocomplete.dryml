@@ -48,7 +48,7 @@ Could be served by:
 
   add_data_rapid!(html_attrs, "autocomplete", :options => options, :events => events)
  %>
-  <wrap tag="span" class="field-with-errors" when="&!this_parent.errors[this_field].empty?">
+  <wrap tag="span" class="field-with-errors" when="&this_parent && !this_parent.errors[this_field].empty?">
     <input type="text" merge-attrs="&html_attrs"/>
   </wrap>
 </def>
