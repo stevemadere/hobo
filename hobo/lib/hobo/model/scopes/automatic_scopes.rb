@@ -322,13 +322,18 @@ module Hobo
             return true if check_only
 
             def_scope do |query, *fields|
-              match_keyword = %w(PostgreSQL PostGIS).include?(::ActiveRecord::Base.connection.adapter_name) ? "ILIKE" : "LIKE"
-
+              using_postgresql = %w(PostgreSQL PostGIS).include?(::ActiveRecord::Base.connection.adapter_name)
+              match_keyword = using_postgresql ? "ILIKE" : "LIKE"
               words = (query || "").split
               args = []
               word_queries = words.map do |word|
                 field_query = '(' + fields.map { |field|
-                  field = "#{@klass.table_name}.#{field}" unless field =~ /\./
+                  if using_postgresql
+                    casted_field = "CAST(#{@klass.table_name}.#{field} AS TEXT)"
+                  else
+                    casted_field = "#{@klass.table_name}.#{field}"
+                  end
+                  field = "#{casted_field}" unless field =~ /\./
                   "(#{field} #{match_keyword} ?)"
                 }.join(" OR ") + ')'
                 args += ["%#{word}%"] * fields.length
