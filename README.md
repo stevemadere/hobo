@@ -26,3 +26,4 @@ Prerequisites:  RVM, wget.   Creates and uses the hobo-smoke rvm gemset.
     export HOBODEV
     cd integration_tests
     ./smoke_test.sh
+
