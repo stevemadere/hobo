@@ -27,7 +27,10 @@ namespace :test do
       sh %(echo "gem 'therubyracer'" >> Gemfile)
       sh %(echo "" > app/models/.gitignore) # because git reset --hard would rm the dir
       rm %(.gitignore) # we need to reset everything in a testapp
-      sh %(git init && git add . && git commit -m "initial commit")
+      sh %(git init)
+      sh %(git config user.email "someone@example.com")
+      sh %(git config user.name "Someone")
+      sh %(git add . && git commit -m "initial commit")
       puts %(The testapp has been created in '#{TESTAPP_PATH}')
     else
       chdir TESTAPP_PATH
