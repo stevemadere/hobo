@@ -18,7 +18,7 @@ Gem::Specification.new do |s|
 
   # s.add_development_dependency('rubydoctest', [">= 1.1.3"])
   s.add_development_dependency('shoulda', [">= 0"])
-  s.add_development_dependency('irt', ["= 1.2.11"])
+  s.add_development_dependency('irt', ["= 1.3.2"])
   s.add_development_dependency('mocha')
   s.add_development_dependency('yard')
 
