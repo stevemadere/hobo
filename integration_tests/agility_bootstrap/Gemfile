@@ -42,9 +42,10 @@ gem "hobo_jquery_ui", :path => "../.."
 
 gem "jquery-ui-themes", "~> 0.0.4"
 
-#gem "hobo_bootstrap", :git => "git://github.com/Hobo/hobo_bootstrap"
-gem "hobo_bootstrap", :path => "../../../hobo_bootstrap"
-gem "hobo_bootstrap_ui", :path => "../../../hobo_bootstrap_ui"
+gem "hobo_bootstrap", :git => "git://github.com/Hobo/hobo_bootstrap"
+gem "hobo_bootstrap_ui", :git => "git://github.com/Hobo/hobo_bootstrap_ui"
+# gem "hobo_bootstrap", :path => "../../../hobo_bootstrap"
+# gem "hobo_bootstrap_ui", :path => "../../../hobo_bootstrap_ui"
 
 gem "hobo_will_paginate"#, :git => "git://github.com/Hobo/will_paginate.git"
 
