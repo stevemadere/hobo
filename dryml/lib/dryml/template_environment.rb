@@ -44,7 +44,12 @@ module Dryml
             instance_variable_set(iv, view.instance_variable_get(iv))
           end
 
-          view.extend ::Sprockets::Rails::Helper
+          # Copy some class attributes needed for Sprockets to work correctly
+          self.extend ::Sprockets::Rails::Helper
+          self.assets_prefix = view.try(:assets_prefix)
+          self.assets_environment = view.try(:assets_environment)
+          self.assets_manifest = view.try(:assets_manifest)
+          self.digest_assets = view.try(:digest_assets)
         end
       end
     end
