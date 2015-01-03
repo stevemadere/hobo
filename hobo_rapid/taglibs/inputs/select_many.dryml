@@ -17,7 +17,7 @@ To use this tag, the model of the items the user is chosing *must* have unique n
 `name`: the parameter name.  Defaults to `param_name_for_this`.
 
 %>
-<def tag="select-many" attrs="options, remove-label, prompt, disabled, name"><%
+<def tag="select-many" polymorphic attrs="options, remove-label, prompt, disabled, name"><%
   prompt ||= ht("#{this_field_reflection.klass.to_s.underscore}.form.select_many.prompt", :default=>"Add #{this_field.titleize.singularize}")
   options ||= this_field_reflection.klass.where(this_field_reflection.options[:conditions]).select {|x| can_view?(x)}
   name ||= param_name_for_this
