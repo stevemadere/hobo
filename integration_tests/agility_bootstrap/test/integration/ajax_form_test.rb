@@ -29,20 +29,6 @@ class AjaxFormTest < ActionDispatch::IntegrationTest
     DatabaseCleaner.clean
   end
 
-  def wait_for_updates_to_finish
-    while page.evaluate_script("$(document).hjq('numUpdates')").to_i > 0
-      sleep 0.1
-    end
-  end
-
-  def wait_for_ajax(timeout = Capybara.default_wait_time)
-    sleep 0.1
-    while page.evaluate_script 'jQuery.active == 0'
-      sleep 0.1
-    end
-  end
-
-
   test "ajax forms" do
     Capybara.default_wait_time = 10
 
@@ -67,14 +53,11 @@ class AjaxFormTest < ActionDispatch::IntegrationTest
     find("#form1").fill_in("story_status_name", :with => "foo1")
     assert_not page.has_content? 'foo1'
     find("#form1").click_button("new")
-    #assert page.has_content? 'foo1'
     assert find(".statuses table tbody tr:nth-child(1) .story-status-name").has_text?("foo1")
 
     find("#form2").fill_in("story_status_name", :with => "foo2")
     find("#form2").click_button("new")
-    within(".statuses table tbody") do
-      assert page.has_text? 'foo2'
-    end
+    assert find(".statuses table tbody tr:nth-child(2)").has_text?("foo2")
 
     find("#form3").fill_in("story_status_name", :with => "foo3")
     find("#form3").click_button("new")
@@ -83,28 +66,25 @@ class AjaxFormTest < ActionDispatch::IntegrationTest
     find("#form4").fill_in("story_status_name", :with => "foo4")
     find("#form4").click_button("new")
     assert find(".statuses table tbody tr:nth-child(4) .story-status-name").has_text?("foo4")
-    wait_for_updates_to_finish
 
     find(".statuses table tbody tr:nth-child(1) .delete-button").click
-    assert has_no_content?("foo1")   # waits for ajax to finish
+    assert has_no_content?("foo1")
     assert_equal 3, all(".statuses table tbody tr").length
 
     visit "/story_statuses/index3"
     find(".statuses li:nth-child(1) .delete-button").click
-    assert has_no_content?("foo2")   # waits for ajax to finish
+    assert has_no_content?("foo2")
     assert_equal 2, all(".statuses li").length
     assert has_content?("There are 2 Story statuses")
 
     visit "/story_statuses/index4"
     find(".statuses li:nth-child(1) .delete-button").click
-    sleep 0.5
     visit "/story_statuses/index4" # Index4 delete-buttons have Ajax disabled (in-place="&false")
     assert_equal 1, all(".statuses li").length
 
     find(".statuses li:nth-child(1) .delete-button").click
-    sleep 0.5
     visit "/story_statuses/index4" # Index4 delete-buttons have Ajax disabled (in-place="&false")
-    assert has_no_content?("foo4")   # waits for ajax to finish
+    assert has_no_content?("foo4")
     assert_equal 0, all(".statuses li").length
     assert has_content?("No records to display")
 
@@ -112,7 +92,6 @@ class AjaxFormTest < ActionDispatch::IntegrationTest
     assert_not_equal "README.md", find(".report-file-name-field .controls").text
     attach_file("project[report]", File.join(::Rails.root, "README.md"))
     click_button "upload new report"
-    sleep 0.5
     assert find(".report-file-name-field .controls").has_content?("README.md")
 
     # these should be set by show2's custom-scripts
@@ -121,13 +100,11 @@ class AjaxFormTest < ActionDispatch::IntegrationTest
 
     find(".story.odd").fill_in("story_title", :with => "s1")
     page.execute_script("$('.story.odd form').submit()")
-    sleep 0.5
     assert find(".story.odd .view.story-title").has_content?("s1")
     assert find(".story.odd .ixz").has_content?("1")
 
     find(".story.even").fill_in("story_title", :with => "s2")
     page.execute_script("$('.story.even form').submit()")
-    sleep 0.5
     assert find(".story.even .view.story-title").has_content?("s2")
     assert find(".story.even .ixz").has_content?("2")
 
@@ -135,7 +112,6 @@ class AjaxFormTest < ActionDispatch::IntegrationTest
     visit "/projects/#{@project.id}/show2"
     find("#name-form").fill_in("project_name", :with => "invalid name")
     find("#name-form .submit-button").click
-    sleep 1 # wait_for_ajax is blocked by the open dialog!
 
     # update name with errors-ok should display error-messages
     visit "/projects/#{@project.id}/show2"
