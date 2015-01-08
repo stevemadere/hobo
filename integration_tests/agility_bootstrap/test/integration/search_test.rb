@@ -6,12 +6,7 @@ require 'database_cleaner'
 #require 'ruby-debug'
 
 Capybara.app = Agility::Application
-Capybara.default_driver = :rack_test
 DatabaseCleaner.strategy = :truncation
-
-Capybara.register_driver :selenium_chrome do |app|
-  Capybara::Selenium::Driver.new(app, :browser => :chrome)
-end
 
 class SearchTest < ActionDispatch::IntegrationTest
   include Capybara::DSL

@@ -5,12 +5,7 @@ require 'capybara/dsl'
 require 'database_cleaner'
 
 Capybara.app = Agility::Application
-Capybara.default_driver = :rack_test
 DatabaseCleaner.strategy = :truncation
-
-Capybara.register_driver :selenium_chrome do |app|
-  Capybara::Selenium::Driver.new(app, :browser => :chrome)
-end
 
 class EditorsTest < ActionDispatch::IntegrationTest
   include Capybara::DSL
@@ -46,7 +41,6 @@ class EditorsTest < ActionDispatch::IntegrationTest
 
 
   test "editors" do
-    Capybara.current_driver = :selenium_chrome
     Capybara.default_wait_time = 5
     visit root_path
     Capybara.current_session.driver.browser.manage.window.resize_to(1024,700)

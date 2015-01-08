@@ -8,16 +8,8 @@ require 'capybara-screenshot/minitest'
 #require 'ruby-debug'
 
 Capybara.app = Agility::Application
-Capybara.default_driver = :rack_test
 DatabaseCleaner.strategy = :truncation
 
-Capybara.register_driver :selenium_chrome do |app|
-  Capybara::Selenium::Driver.new(app, :browser => :chrome)
-end
-
-Capybara::Screenshot.register_driver(:selenium_chrome) do |driver, path|
-  driver.browser.save_screenshot(path)
-end
 
 class AjaxFormTest < ActionDispatch::IntegrationTest
   include Capybara::DSL
@@ -52,12 +44,12 @@ class AjaxFormTest < ActionDispatch::IntegrationTest
 
 
   test "ajax forms" do
-    Capybara.current_driver = :selenium_chrome
     Capybara.default_wait_time = 10
+
     visit root_path
 
     # Resize the window so Bootstrap shows Login button
-    Capybara.current_session.driver.browser.manage.window.resize_to(1024,700)
+    Capybara.current_session.driver.resize(1024,700)
 
     # log in as Administrator
     click_link "Login"
@@ -77,19 +69,16 @@ class AjaxFormTest < ActionDispatch::IntegrationTest
     find("#form1").click_button("new")
     #assert page.has_content? 'foo1'
     assert find(".statuses table tbody tr:nth-child(1) .story-status-name").has_text?("foo1")
-    # wait_for_updates_to_finish  # we don't need this every time, but if we don't throw it in occasionally, things do stop working
 
     find("#form2").fill_in("story_status_name", :with => "foo2")
-    sleep 0.25
     find("#form2").click_button("new")
-    sleep 0.25
-    assert find(".statuses table tbody tr:nth-child(2) .story-status-name").has_text?("foo2")
-    wait_for_updates_to_finish
+    within(".statuses table tbody") do
+      assert page.has_text? 'foo2'
+    end
 
     find("#form3").fill_in("story_status_name", :with => "foo3")
     find("#form3").click_button("new")
     assert find(".statuses table tbody tr:nth-child(3) .story-status-name").has_text?("foo3")
-    # wait_for_updates_to_finish
 
     find("#form4").fill_in("story_status_name", :with => "foo4")
     find("#form4").click_button("new")
@@ -97,26 +86,22 @@ class AjaxFormTest < ActionDispatch::IntegrationTest
     wait_for_updates_to_finish
 
     find(".statuses table tbody tr:nth-child(1) .delete-button").click
-    page.driver.browser.switch_to.alert.accept
     assert has_no_content?("foo1")   # waits for ajax to finish
     assert_equal 3, all(".statuses table tbody tr").length
 
     visit "/story_statuses/index3"
     find(".statuses li:nth-child(1) .delete-button").click
-    page.driver.browser.switch_to.alert.accept
     assert has_no_content?("foo2")   # waits for ajax to finish
     assert_equal 2, all(".statuses li").length
     assert has_content?("There are 2 Story statuses")
 
     visit "/story_statuses/index4"
     find(".statuses li:nth-child(1) .delete-button").click
-    page.driver.browser.switch_to.alert.accept
     sleep 0.5
     visit "/story_statuses/index4" # Index4 delete-buttons have Ajax disabled (in-place="&false")
     assert_equal 1, all(".statuses li").length
 
     find(".statuses li:nth-child(1) .delete-button").click
-    page.driver.browser.switch_to.alert.accept
     sleep 0.5
     visit "/story_statuses/index4" # Index4 delete-buttons have Ajax disabled (in-place="&false")
     assert has_no_content?("foo4")   # waits for ajax to finish
@@ -124,11 +109,11 @@ class AjaxFormTest < ActionDispatch::IntegrationTest
     assert has_content?("No records to display")
 
     visit "/projects/#{@project.id}/show2"
-    assert_not_equal "README", find(".report-file-name-field .controls").text
-    attach_file("project[report]", File.join(::Rails.root, "README"))
+    assert_not_equal "README.md", find(".report-file-name-field .controls").text
+    attach_file("project[report]", File.join(::Rails.root, "README.md"))
     click_button "upload new report"
     sleep 0.5
-    assert find(".report-file-name-field .controls").has_content?("README")
+    assert find(".report-file-name-field .controls").has_content?("README.md")
 
     # these should be set by show2's custom-scripts
     assert find(".events").has_text?("events: rapid:ajax:before rapid:ajax:success rapid:ajax:complete")
@@ -151,7 +136,6 @@ class AjaxFormTest < ActionDispatch::IntegrationTest
     find("#name-form").fill_in("project_name", :with => "invalid name")
     find("#name-form .submit-button").click
     sleep 1 # wait_for_ajax is blocked by the open dialog!
-    page.driver.browser.switch_to.alert.accept
 
     # update name with errors-ok should display error-messages
     visit "/projects/#{@project.id}/show2"
