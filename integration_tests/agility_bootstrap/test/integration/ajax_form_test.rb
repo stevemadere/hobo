@@ -1,19 +1,8 @@
 # -*- coding: utf-8 -*-
 require 'test_helper'
-require 'capybara'
-require 'capybara/dsl'
-require 'database_cleaner'
-require 'capybara-screenshot'
-require 'capybara-screenshot/minitest'
-#require 'ruby-debug'
-
-Capybara.app = Agility::Application
-DatabaseCleaner.strategy = :truncation
-
+require 'integration_test_helper'
 
 class AjaxFormTest < ActionDispatch::IntegrationTest
-  include Capybara::DSL
-  include FactoryGirl::Syntax::Methods
 
   self.use_transactional_fixtures = false
 
