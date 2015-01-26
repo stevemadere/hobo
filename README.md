@@ -1,3 +1,5 @@
+[ ![Codeship Status for Hobo/hobo](https://codeship.com/projects/6dd714c0-6cd7-0132-7429-3a463caf9dbd/status?branch=master)](https://codeship.com/projects/54101)
+
 The README for hobo is in hobo/README.md
 
 However, if youre reading this, you'll probably be more interested in 
@@ -26,3 +28,4 @@ Prerequisites:  RVM, wget.   Creates and uses the hobo-smoke rvm gemset.
     export HOBODEV
     cd integration_tests
     ./smoke_test.sh
+

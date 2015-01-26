@@ -24,7 +24,7 @@ file_include? 'config/application.rb',
 test_value_eql? true
 
 desc "shoulda Gemfile injection"
-file_include? 'Gemfile', %(gem "shoulda", :group => :test)
+file_include? 'Gemfile', %(gem "shoulda", group: :test)
 test_value_eql? true
 
 git_reset_app
@@ -38,7 +38,7 @@ file_include? 'config/application.rb',
 test_value_eql? true
 
 desc "rspec Gemfile injection"
-file_include? 'Gemfile',  %(gem "rspec-rails", ">= 2.5.0", :group => [:test, :development])
+file_include? 'Gemfile',  %(gem "rspec-rails", ">= 2.5.0", group: [:test, :development])
 test_value_eql? true
 
 git_reset_app
@@ -52,8 +52,8 @@ file_include? 'config/application.rb',
 test_value_eql? true
 
 desc "rspec_with_shoulda Gemfile injection"
-file_include? 'Gemfile', %(gem "rspec-rails", ">= 2.5.0", :group => [:test, :development]),
-                       %(gem "shoulda", :group => :test)
+file_include? 'Gemfile', %(gem "rspec-rails", ">= 2.5.0", group: [:test, :development]),
+                       %(gem "shoulda", group: :test)
 test_value_eql? true
 
 
