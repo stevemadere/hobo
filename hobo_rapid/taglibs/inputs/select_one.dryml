@@ -16,7 +16,7 @@ This is the default input that Rapid uses for `belongs_to` associations. The men
 For situations where there are too many target records to practically include in a menu, `<name-one>` provides an autocompleter which would be more suitable.
 
   -->
-<def tag="select-one" attrs="include-none, blank-message, options, sort, limit, text-method"><%
+<def tag="select-one" polymorphic attrs="include-none, blank-message, options, sort, limit, text-method"><%
   raise Hobo::PermissionDeniedError.new("Not allowed to edit #{this_field}") if !attributes[:disabled] && !can_edit?
   blank_message ||= ht("#{this_type.name.underscore}.messages.none", :default=>"No #{this_type.model_name.human} available.")
   limit ||= 100
