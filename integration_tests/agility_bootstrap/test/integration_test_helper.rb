@@ -12,7 +12,7 @@ DatabaseCleaner.strategy = :truncation
 
 
 Capybara.register_driver :poltergeist do |app|
-  Capybara::Poltergeist::Driver.new(app, :timeout => 3)
+  Capybara::Poltergeist::Driver.new(app, :timeout => 3, :js_errors => false)
 end
 
 Capybara.javascript_driver = :poltergeist

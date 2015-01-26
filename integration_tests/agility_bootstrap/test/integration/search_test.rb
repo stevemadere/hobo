@@ -1,15 +1,8 @@
 # -*- coding: utf-8 -*-
 require 'test_helper'
-require 'capybara'
-require 'capybara/dsl'
-require 'database_cleaner'
-#require 'ruby-debug'
-
-Capybara.app = Agility::Application
-DatabaseCleaner.strategy = :truncation
+require 'integration_test_helper'
 
 class SearchTest < ActionDispatch::IntegrationTest
-  include Capybara::DSL
   self.use_transactional_fixtures = false
 
   setup do
@@ -23,16 +16,9 @@ class SearchTest < ActionDispatch::IntegrationTest
     DatabaseCleaner.clean
   end
 
-  def wait_for_updates_to_finish
-    while page.evaluate_script("$(document).hjq('numUpdates')").to_i > 0
-      sleep 0.1
-    end
-  end
-
   test "search" do
-    Capybara.current_driver = :selenium_chrome
     visit root_path
-    Capybara.current_session.driver.browser.manage.window.resize_to(1024,700)
+    Capybara.current_session.driver.resize(1024,700)
 
     # log in as Administrator
     click_link "Log out" rescue Capybara::ElementNotFound
@@ -40,13 +26,12 @@ class SearchTest < ActionDispatch::IntegrationTest
     fill_in "login", :with => "admin@example.com"
     fill_in "password", :with => "test123"
     click_button "Login"
-    sleep 0.2
     assert has_content?("Logged in as Admin User")
 
     visit root_path
 
     fill_in "query", :with => "First"
-    find("input[name=query]").native.send_key(:enter)
+    find("input[name=query]").native.send_key(:Enter)
     assert has_content?("Search Results")
     assert find("#search-results-box").has_content?("First Project")
     assert find("#search-results-box").has_content?("First Story")
