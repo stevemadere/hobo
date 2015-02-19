@@ -520,8 +520,6 @@ Validations have been extended so you can give the name of a lifecycle step to t
     validates_presence_of :notes, :on => :submit
 {.ruby}
 
-Also now supports `record.lifecycle.valid_for_foo?` where `foo` is a lifecycle transition.
-
 
 # Controller actions and routes
 
