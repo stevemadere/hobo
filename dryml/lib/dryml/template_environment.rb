@@ -642,6 +642,9 @@ module Dryml
       @view ? @view.session : {}
     end
 
+    def config
+      @view ? @view.config : {}
+    end
 
     def method_missing(name, *args, &b)
       if @view
