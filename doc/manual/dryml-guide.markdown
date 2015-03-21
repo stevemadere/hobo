@@ -651,6 +651,8 @@ It's a common need to want alternating styles for items in a collection - e.g. s
 {.dryml}
 
 That example illustrates another important point -- any Ruby code in attributes is evaluated *inside* the repeat. In other words, the `repeat` attribute behaves the same as wrapping the tag in a `<repeat>` tag.
+
+You can also use `scope.index` to retrieve the index of the element in the collection. It can be useful to number the elements in a table or list.
     
     
 ### `first_item?` and `last_item?` helpers

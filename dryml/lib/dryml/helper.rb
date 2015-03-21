@@ -20,14 +20,16 @@ module Dryml::Helper
       # TODO: Calls to respond_to? in here can cause the full collection hiding behind a scoped collection to get loaded
       res = []
       empty = true
-      scope.new_scope(:repeat_collection => enum, :even_odd => 'odd', :repeat_item => nil) do
+      scope.new_scope(:repeat_collection => enum, :even_odd => 'odd', :repeat_item => nil, :index => 0) do
         if !enum.respond_to?(:to_a) && enum.respond_to?(:each_pair)
           enum.each_pair do |key, value|
             scope.repeat_item = value
             empty = false;
             self.this_key = key;
             new_object_context(value) { res << yield }
+            # The lines below are only used to prepare for the next element of the collection
             scope.even_odd = scope.even_odd == "even" ? "odd" : "even"
+            scope.index += 1
           end
         else
           index = 0
@@ -39,8 +41,9 @@ module Dryml::Helper
             else
               new_object_context(e) { res << yield }
             end
+            # The lines below are only used to prepare for the next element of the collection
             scope.even_odd = scope.even_odd == "even" ? "odd" : "even"
-            index += 1
+            scope.index += 1
           end
         end
         Dryml.last_if = !empty
