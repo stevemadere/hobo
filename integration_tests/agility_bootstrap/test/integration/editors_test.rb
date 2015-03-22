@@ -61,7 +61,9 @@ class EditorsTest < ActionDispatch::IntegrationTest
     @verify_list << { :selector => ".bool1-field .controls", :value => "Yes" }
 
     find(".bool2-field .controls input[type=checkbox]").click
+    sleep 0.2
     find(".bool2-field .controls input[type=checkbox]").click
+    sleep 0.2
     @verify_list << { :selector => ".bool2-field .controls", :value => "No" }
 
     find(".es-field .controls select").select("C")

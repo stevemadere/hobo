@@ -68,6 +68,7 @@ class CreateAccountTest < ActionDispatch::IntegrationTest
 
     # test sortable-collection
     find("ul.tasks li:nth-child(2) .ordering-handle").drag_to(find("ul.tasks li:nth-child(1) .ordering-handle"))
+    sleep 0.2
     visit page.current_path
     assert find("ul.tasks li:nth-child(1) .description").has_text?("Second Task")
 
