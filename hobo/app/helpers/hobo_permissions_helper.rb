@@ -21,13 +21,20 @@ module HoboPermissionsHelper
         object = object.new
       elsif (refl = object.try.proxy_association._?.reflection) && refl.macro == :has_many
         if Hobo.simple_has_many_association?(object)
-          object = object.build
-          object.set_creator(current_user)
+          new_object = object.build
+          new_object.set_creator(current_user)
         else
           return false
         end
       end
-      object.creatable_by?(current_user)
+      # When running `can_create?(@something.children)`, a new object is instantiated to check if we can create
+      # After the check we need to remove it from memory
+      if new_object
+        new_object.creatable_by?(current_user)
+        object.delete(new_object)
+      else
+        object.creatable_by?(current_user)
+      end
     end
 
 
