@@ -43,6 +43,7 @@ module Dryml::Helper
             end
             # The lines below are only used to prepare for the next element of the collection
             scope.even_odd = scope.even_odd == "even" ? "odd" : "even"
+            index += 1
             scope.index += 1
           end
         end
