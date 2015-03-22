@@ -109,7 +109,7 @@ NOTE: You might want to sign up as the administrator before adding this!
         @invite_only = invite_only?
         private_site = options[:private_site]
       end
-      inject_into_file 'app/controllers/application_controller.rb', <<EOI, :after => "protect_from_forgery\n" if private_site
+      inject_into_file 'app/controllers/application_controller.rb', <<EOI, :after => "protect_from_forgery with: :exception\n" if private_site
   include Hobo::Controller::AuthenticationSupport
   before_filter :except => [:login, :forgot_password, :accept_invitation, :do_accept_invitation, :reset_password,
 :do_reset_password] do
