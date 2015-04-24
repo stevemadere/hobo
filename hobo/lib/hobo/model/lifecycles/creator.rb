@@ -47,7 +47,8 @@ module Hobo
 
 
         def run!(user, attributes)
-          record = lifecycle.model.user_new(user)
+          record = lifecycle.model.new
+          record.set_creator user
           record.lifecycle.active_step = self
           record.with_acting_user(user) do
             prepare!(record, attributes)
