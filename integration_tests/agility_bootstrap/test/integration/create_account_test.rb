@@ -141,7 +141,7 @@ class CreateAccountTest < ActionDispatch::IntegrationTest
     find("select.story_status").select("discussion")
 
     click_link "« Back to Project First Project"
-    assert_equal "discussion", find("span.story-status-name").text
+    assert find("span.story-status-name").has_text?("discussion")
 
     # check filtering
     select "documentation", :from => "status"
