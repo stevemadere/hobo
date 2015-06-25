@@ -7,9 +7,9 @@ module Hobo
           result = self
           scopes.each_pair do |scope, arg|
             if arg.is_a?(Array)
-              result = self.send(scope, *arg) unless arg.first.blank?
+              result = result.send(scope, *arg) unless arg.first.blank?
             else
-              result = self.send(scope, arg) unless arg.blank?
+              result = result.send(scope, arg) unless arg.blank?
             end
           end
           result
