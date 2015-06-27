@@ -19,11 +19,17 @@ ActiveRecord::Base.class_eval do
   class << self
 
     def can_wrap_with_hobo_type?(attr_name)
-      if connected?
-        type_wrapper = try.attr_type(attr_name)
-        type_wrapper.is_a?(Class) && type_wrapper.not_in?(HoboFields::PLAIN_TYPES.values)
+      @can_wrap_cache ||= {}
+      if @can_wrap_cache.include?(attr_name)
+        @can_wrap_cache[attr_name]
       else
-        false
+        @can_wrap_cache[attr_name] = \
+          if connected?
+            type_wrapper = try.attr_type(attr_name)
+            type_wrapper.is_a?(Class) && type_wrapper.not_in?(HoboFields::PLAIN_TYPES.values)
+          else
+            false
+          end
       end
     end
 
