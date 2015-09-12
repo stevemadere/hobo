@@ -102,8 +102,8 @@ module Generators
             raise ::Hobo::Error, "Hob routing error -- can't find reverse association for #{model}##{owner} " +
                              "(e.g. the :has_many that corresponds to a :belongs_to)" if collection_refl.nil?
             collection         = collection_refl.name
-            owner_class        = model.reflections[owner].klass.name.underscore
-            owner = owner.to_s.singularize if model.reflections[owner].macro == :has_many
+            owner_class        = model.reflections[owner.to_s].klass.name.underscore
+            owner = owner.to_s.singularize if model.reflections[owner.to_s].macro == :has_many
             collection_path = "#{owner_class.pluralize}/:#{owner}_id/#{collection}"
 
             routes = []
@@ -167,8 +167,8 @@ module Generators
             raise ::Hobo::Error, "Hob routing error -- can't find reverse association for #{model}##{owner} " +
                              "(e.g. the :has_many that corresponds to a :belongs_to)" if collection_refl.nil?
             collection         = collection_refl.name
-            owner_class        = model.reflections[owner].klass.name.underscore
-            owner = owner.to_s.singularize if model.reflections[owner].macro == :has_many
+            owner_class        = model.reflections[owner.to_s].klass.name.underscore
+            owner = owner.to_s.singularize if model.reflections[owner.to_s].macro == :has_many
             collection_path = "#{owner_class.pluralize}/:#{owner}_id/#{collection}"
 
             actions.each do |action|

@@ -54,7 +54,7 @@ module Hobo
               record.send(method, owner) if record.respond_to? method
             end
           else
-            owner.include_in_save(association_name, record) unless owner.class.reflections[association_name].options[:through]
+            owner.include_in_save(association_name, record) unless owner.class.reflections[association_name.to_s].options[:through]
           end
         else
           # It's already a record
@@ -90,7 +90,7 @@ module Hobo
       end
 
       def finder_for_belongs_to(record, name)
-        refl = record.class.reflections[name]
+        refl = record.class.reflections[name.to_s]
         #conditions = ActiveRecord::Associations::BelongsToAssociation.new(record, refl).reflection.send(:conditions)
         conditions = [[]]
         conditions == [[]] || conditions == [[],[]] ? refl.klass : refl.klass.scoped(:conditions => conditions)

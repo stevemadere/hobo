@@ -81,7 +81,7 @@ module Hobo
 
         def has_many_with_hobo_permission_check(association_id, *args, &extension)
           has_many_without_hobo_permission_check(association_id, *args, &extension)
-          reflection = reflections[association_id]
+          reflection = reflections[association_id.to_s]
           if reflection.options[:dependent]==:destroy
             #overriding dynamic method created in ActiveRecord::Associations#configure_dependency_for_has_many
             method_name =  "has_many_dependent_destroy_for_#{reflection.name}".to_sym
@@ -93,7 +93,7 @@ module Hobo
 
         def has_one_with_hobo_permission_check(association_id, *args, &extension)
           has_one_without_hobo_permission_check(association_id, *args, &extension)
-          reflection = reflections[association_id]
+          reflection = reflections[association_id.to_s]
           if reflection.options[:dependent]==:destroy
             #overriding dynamic method created in ActiveRecord::Associations#configure_dependency_for_has_one
             method_name =  "has_one_dependent_destroy_for_#{reflection.name}".to_sym
@@ -108,7 +108,7 @@ module Hobo
 
         def belongs_to_with_hobo_permission_check(association_id, *args, &extension)
           belongs_to_without_hobo_permission_check(association_id, *args, &extension)
-          reflection = reflections[association_id]
+          reflection = reflections[association_id.to_s]
           if reflection.options[:dependent]==:destroy
             #overriding dynamic method created in ActiveRecord::Associations#configure_dependency_for_belongs_to
             method_name =  "belongs_to_dependent_destroy_for_#{reflection.name}".to_sym
@@ -244,7 +244,7 @@ module Hobo
           # No setter = no edit permission
           return false if !respond_to?("#{attribute}=")
 
-          refl = self.class.reflections[attribute.to_sym]
+          refl = self.class.reflections[attribute.to_s]
           if refl && refl.macro != :belongs_to # a belongs_to is handled the same as a regular attribute
             return association_editable_by?(user, refl)
           end
@@ -338,7 +338,7 @@ module Hobo
       end
 
       def with_attribute_or_belongs_to_keys(attribute)
-        if (refl = self.class.reflections[attribute.to_sym]) && refl.macro == :belongs_to
+        if (refl = self.class.reflections[attribute.to_s]) && refl.macro == :belongs_to
           if refl.options[:polymorphic]
             yield refl.foreign_key, refl.options[:foreign_type]
           else
@@ -386,7 +386,7 @@ module Hobo
           end
         end
 
-        if (refl = self.class.reflections[attr.to_sym]) && refl.macro == :belongs_to
+        if (refl = self.class.reflections[attr.to_s]) && refl.macro == :belongs_to
           # A belongs_to -- also unknownify the underlying fields
           unknownify_attribute refl.foreign_key
           unknownify_attribute refl.options[:foreign_type] if refl.options[:polymorphic]
@@ -429,7 +429,7 @@ module Hobo
 
         metaclass.send :remove_method, attr
 
-        if (refl = self.class.reflections[attr]) && refl.macro == :belongs_to
+        if (refl = self.class.reflections[attr.to_s]) && refl.macro == :belongs_to
           # A belongs_to -- restore the underlying fields
           deunknownify_attribute refl.foreign_key
           deunknownify_attribute(refl.options[:foreign_type], false) if refl.options[:polymorphic]

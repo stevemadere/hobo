@@ -98,7 +98,7 @@ module HoboFields
       index_options = {}
       index_options[:name] = options.delete(:index) if options.has_key?(:index)
       bt = belongs_to_without_field_declarations(name, *args, &block)
-      refl = reflections[name.to_sym]
+      refl = reflections[name.to_s]
       fkey = refl.foreign_key
       declare_field(fkey.to_sym, :integer, column_options)
       if refl.options[:polymorphic]
