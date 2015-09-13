@@ -156,14 +156,6 @@ module HoboFields
     def self.add_validations_for_field(name, type, args)
       validates_presence_of   name if :required.in?(args)
       validates_uniqueness_of name, :allow_nil => !:required.in?(args) if :unique.in?(args)
-
-      type_class = HoboFields.to_class(type)
-      if type_class && type_class.public_method_defined?("validate")
-        self.validate do |record|
-          v = record.send(name)._?.validate
-          record.errors.add(name, v) if v.is_a?(String)
-        end
-      end
     end
 
     def self.add_formatting_for_field(name, type, args)
@@ -209,7 +201,7 @@ module HoboFields
 
       attr_types[name] or
 
-        if (refl = reflections[name.to_sym])
+        if (refl = reflections[name.to_s])
           if refl.macro.in?([:has_one, :belongs_to]) && !refl.options[:polymorphic]
             refl.klass
           else
