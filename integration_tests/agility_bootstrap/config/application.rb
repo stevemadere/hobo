@@ -31,6 +31,8 @@ module Agility
     config.i18n.default_locale = :en
     config.i18n.enforce_available_locales = true
 
+    BetterErrors::Middleware.allow_ip! '10.0.3.1'
+
   end
 end
 
