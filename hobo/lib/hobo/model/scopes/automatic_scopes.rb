@@ -404,7 +404,7 @@ module Hobo
 
 
         def reflection(name)
-          @klass.reflections[name.to_sym]
+          @klass.reflections[name.to_s]
         end
 
 

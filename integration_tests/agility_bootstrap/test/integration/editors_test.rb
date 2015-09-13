@@ -27,7 +27,7 @@ class EditorsTest < ActionDispatch::IntegrationTest
 
 
   test "editors" do
-    Capybara.default_wait_time = 5
+    Capybara.default_max_wait_time = 5
     visit root_path
     Capybara.current_session.driver.resize(1024,700)
 

@@ -166,7 +166,7 @@ Let's apply that change to the database
      end
     >> up, down = Generators::Hobo::Migration::Migrator.run
     >> up
-    => "change_column :adverts, :title, :text, :limit => nil"
+    => "change_column :adverts, :title, :text"
     >> down
     => "change_column :adverts, :title, :string"
 
@@ -184,7 +184,7 @@ Let's apply that change to the database
     >> up.split(',').slice(0,3).join(',')
     => 'change_column :adverts, :title, :string'
     >> up.split(',').slice(3,2).sort.join(',')
-    => ' :default => "Untitled", :limit => 255'
+    => " :default => \"Untitled\""
     >> down
     => "change_column :adverts, :title, :string"
 
