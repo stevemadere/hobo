@@ -358,7 +358,7 @@ module Hobo
 
 
     def find_instance(options={})
-      model.user_find(current_user, params[:id], options) do |record|
+      model.user_find(current_user, params[:id]) do |record|
         yield record if block_given?
       end
     end
