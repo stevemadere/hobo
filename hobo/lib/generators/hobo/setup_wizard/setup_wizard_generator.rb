@@ -8,7 +8,6 @@ module Hobo
     include Generators::HoboSupport::ThorShell
     include Generators::Hobo::InviteOnly
     include Generators::Hobo::ActivationEmail
-    include Generators::Hobo::TestOptions
     include Generators::Hobo::Taglib
     include Generators::Hobo::Plugin
 
