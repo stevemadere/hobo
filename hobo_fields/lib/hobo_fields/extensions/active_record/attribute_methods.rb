@@ -1,9 +1,9 @@
 ActiveRecord::Base.class_eval do
-  def read_attribute_with_hobo(attr_name)
+  def _read_attribute_with_hobo(attr_name)
     name = attr_name.to_s
     if self.class.can_wrap_with_hobo_type?(name)
       attr_name = attr_name.to_sym
-      val = read_attribute_without_hobo(name)
+      val = _read_attribute_without_hobo(name)
       wrapper_type = self.class.attr_type(attr_name)
       if HoboFields.can_wrap?(wrapper_type, val)
         wrapper_type.new(val)
@@ -11,10 +11,10 @@ ActiveRecord::Base.class_eval do
         val
       end
     else
-      read_attribute_without_hobo(name)
+      _read_attribute_without_hobo(name)
     end
   end
-  alias_method_chain :read_attribute, :hobo
+  alias_method_chain :_read_attribute, :hobo
 
   class << self
 
