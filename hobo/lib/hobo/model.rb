@@ -155,7 +155,7 @@ module Hobo
             options = args[1]
         end
         belongs_to_without_test_methods(name, *args, &block)
-        refl = reflections[name]
+        refl = reflections[name.to_s]
         id_method = refl.options[:primary_key] || refl.klass.primary_key
         if options[:polymorphic]
           # TODO: the class lookup in _is? below is incomplete; a polymorphic association to an STI base class
@@ -259,7 +259,7 @@ module Hobo
 
 
       def reverse_reflection(association_name)
-        refl = reflections[association_name.to_sym] or raise "No reverse reflection for #{name}.#{association_name}"
+        refl = reflections[association_name.to_s] or raise "No reverse reflection for #{name}.#{association_name}"
         return nil if refl.options[:conditions] || refl.options[:polymorphic]
 
         if refl.macro == :has_many && (self_to_join = refl.through_reflection)

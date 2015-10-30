@@ -21,19 +21,19 @@ class Story < ActiveRecord::Base
   # --- Permissions --- #
 
   def create_permitted?
-    project.creatable_by?(acting_user)
+    project ? project.creatable_by?(acting_user) : true
   end
 
   def update_permitted?
-    project.updatable_by?(acting_user)
+    project ? project.updatable_by?(acting_user) : true
   end
 
   def destroy_permitted?
-    project.destroyable_by?(acting_user)
+    project ? project.destroyable_by?(acting_user) : true
   end
 
   def view_permitted?(field)
-    project.viewable_by?(acting_user)
+    project ? project.viewable_by?(acting_user) : true
   end
 
 end

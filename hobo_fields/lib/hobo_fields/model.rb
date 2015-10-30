@@ -98,7 +98,7 @@ module HoboFields
       index_options = {}
       index_options[:name] = options.delete(:index) if options.has_key?(:index)
       bt = belongs_to_without_field_declarations(name, *args, &block)
-      refl = reflections[name.to_sym]
+      refl = reflections[name.to_s]
       fkey = refl.foreign_key
       declare_field(fkey.to_sym, :integer, column_options)
       if refl.options[:polymorphic]
@@ -157,6 +157,7 @@ module HoboFields
       validates_presence_of   name if :required.in?(args)
       validates_uniqueness_of name, :allow_nil => !:required.in?(args) if :unique.in?(args)
 
+      # Support for custom validations in Hobo Fields
       type_class = HoboFields.to_class(type)
       if type_class && type_class.public_method_defined?("validate")
         self.validate do |record|
@@ -164,6 +165,7 @@ module HoboFields
           record.errors.add(name, v) if v.is_a?(String)
         end
       end
+
     end
 
     def self.add_formatting_for_field(name, type, args)
@@ -209,7 +211,7 @@ module HoboFields
 
       attr_types[name] or
 
-        if (refl = reflections[name.to_sym])
+        if (refl = reflections[name.to_s])
           if refl.macro.in?([:has_one, :belongs_to]) && !refl.options[:polymorphic]
             refl.klass
           else

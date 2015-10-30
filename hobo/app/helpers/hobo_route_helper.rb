@@ -56,7 +56,8 @@ module HoboRouteHelper
           owner_name = refl.name.to_s
           owner_name = owner_name.singularize if refl.macro == :has_many
           poly = [owner_name, obj.member_class]
-          params[:"#{owner_name}_id"] = obj.origin
+          params[:"#{owner_name}_id"] = obj.origin.id
+          params = params.symbolize_keys
           action = "#{action}_for_#{owner_name}"
         else
           poly = [obj.member_class]
@@ -84,6 +85,9 @@ module HoboRouteHelper
         nil
       rescue ActionController::RoutingError => e  # raised if recognize_path fails
         logger.info("recognize_path has failed: #{e.message}")
+        nil
+      rescue ActionController::UrlGenerationError => e # error that inherits from ActionController::RoutingError
+        logger.info("UrlGenerationError: #{e.message}")
         nil
       end
 

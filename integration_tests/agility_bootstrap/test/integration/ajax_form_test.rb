@@ -19,7 +19,7 @@ class AjaxFormTest < ActionDispatch::IntegrationTest
   end
 
   test "ajax forms" do
-    Capybara.default_wait_time = 10
+    Capybara.default_max_wait_time = 10
 
     visit root_path
 
@@ -27,6 +27,7 @@ class AjaxFormTest < ActionDispatch::IntegrationTest
     Capybara.current_session.driver.resize(1024,700)
 
     # log in as Administrator
+    click_link "Log out" rescue Capybara::ElementNotFound
     click_link "Login"
     fill_in "login", :with => "admin@example.com"
     fill_in "password", :with => "test123"

@@ -269,7 +269,7 @@ module Hobo
 
 
       def auto_actions_for(owner, actions)
-        name = model.reflections[owner].macro == :has_many ? owner.to_s.singularize : owner
+        name = model.reflections[owner.to_s].macro == :has_many ? owner.to_s.singularize : owner
 
         owner_actions[owner] ||= []
         Array(actions).each do |action|
@@ -358,7 +358,7 @@ module Hobo
 
 
     def find_instance(options={})
-      model.user_find(current_user, params[:id], options) do |record|
+      model.user_find(current_user, params[:id]) do |record|
         yield record if block_given?
       end
     end
@@ -466,7 +466,7 @@ module Hobo
 
     def find_owner_and_association(owner_association)
       owner_name = name_of_auto_action_for(owner_association)
-      refl = model.reflections[owner_association]
+      refl = model.reflections[owner_association.to_s]
       id = params["#{owner_name}_id"]
       owner = refl.klass.find(id)
       instance_variable_set("@#{owner_association}", owner)
@@ -474,7 +474,7 @@ module Hobo
     end
 
     def name_of_auto_action_for(owner_association)
-      model.reflections[owner_association].macro == :has_many ? owner_association.to_s.singularize : owner_association
+      model.reflections[owner_association.to_s].macro == :has_many ? owner_association.to_s.singularize : owner_association
     end
 
     # --- Action implementations --- #
