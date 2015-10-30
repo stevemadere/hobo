@@ -85,7 +85,7 @@ collection is considered blank)
 -->
 <def tag="if" attrs="test"><%=
   test = all_attributes.fetch(:test, this)
-  res = (cond = !test.blank?) ? parameters.default : ""
+  res = (cond = dryml_test_to_bool(test)) ? parameters.default : ""
   Dryml.last_if = cond
   res
 %></def>
@@ -100,7 +100,7 @@ collection is considered blank)
 <!-- Same behaviour as `<if>`, except the test is negated. -->
 <def tag="unless" attrs="test"><%=
   test = all_attributes.fetch(:test, this)
-  res = (cond = test.blank?) ? parameters.default : ""
+  res = (cond = !dryml_test_to_bool(test)) ? parameters.default : ""
   Dryml.last_if = cond
   res
 %></def>

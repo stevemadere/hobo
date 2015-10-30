@@ -90,4 +90,12 @@ module Dryml::Helper
     def param_name_for_this_parent
       param_name_for(path_for_form_field[0..-2])
     end
+
+    # Interprets a string result of a dryml condition as a boolean
+    # returns an actual BOOLEAN which can then properly be used in
+    # logic with drastically lower odds of misunderstandings and bugs.
+    def dryml_test_to_bool(test)
+      !(test.blank? || test == 'false')
+    end
+
 end
