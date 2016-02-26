@@ -46,10 +46,19 @@ module Dryml
 
           # Copy some class attributes needed for Sprockets to work correctly
           self.extend ::Sprockets::Rails::Helper
-          self.assets_prefix = view.try(:assets_prefix)
-          self.assets_environment = view.try(:assets_environment)
-          self.assets_manifest = view.try(:assets_manifest)
-          self.digest_assets = view.try(:digest_assets)
+
+          self.debug_assets        = view.try(:debug_assets)
+          self.digest_assets       = view.try(:digest_assets)
+          self.assets_prefix       = view.try(:assets_prefix)
+          self.assets_precompile   = view.try(:assets_precompile)
+
+          self.assets_environment  = view.try(:assets_environment)
+          self.assets_manifest     = view.try(:assets_manifest)
+
+          self.resolve_assets_with = view.try(:resolve_assets_with)
+
+          # Expose the app precompiled asset check
+          self.precompiled_asset_checker = view.try(:precompiled_asset_checker)
         end
       end
     end
