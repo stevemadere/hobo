@@ -146,7 +146,7 @@ Provides validation of correct email address format.
         # but there's no guarantees that it is well-formed
         >> textile = HoboFields::Types::TextileString.new("</div>>>p1<script>p2")
         >> textile.to_html
-        => "<p>&gt;&gt;p1p2</p></p>"
+        => "<p>&gt;&gt;p1p2&lt;/p&gt;</p>"
         >> textile.to_html.html_safe?
         => true
 
