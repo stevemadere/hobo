@@ -33,20 +33,7 @@ platform :ruby_20, :ruby_21 do
   end
 end
 
-# Bundle the extra gems:
-# gem 'bj'
-# gem 'nokogiri'
-# gem 'sqlite3-ruby', :require => 'sqlite3'
-# gem 'aws-s3', :require => 'aws/s3'
-
-#gem "hobo_support", :path => "../.."
-#gem "hobo_fields", :path => "../.."
-#gem "dryml", :path => "../.."
 gem "hobo", :path => "../.."
-# gem "hobo_rapid", :path => "../.."
-# gem "hobo_clean", :path => "../.."
-# gem "hobo_clean_sidemenu", :path => "../.."
-# gem "hobo_jquery", :path => "../.."
 gem "hobo_jquery_ui", :path => "../.."
 
 gem "jquery-ui-themes", "~> 0.0.4"
@@ -65,9 +52,7 @@ gem "shoulda", :group => :test
 gem "factory_girl_rails", :group => :test
 
 group :development, :test do
-  gem 'capybara'#, :git => 'git://github.com/jnicklas/capybara.git'#, :ref => "83d8574c1d"  #"756ec1b2af70c66093c3b25976f520a3e6c3c2ae"
-#  gem 'capybara-webkit', :git => 'git://github.com/thoughtbot/capybara-webkit.git'
-#  gem 'capybara-webkit', :git => 'https://github.com/josephbridgwaterrowe/capybara-webkit.git', :branch => 'patch-1'
+  gem 'capybara'
   gem 'database_cleaner'
   gem 'better_errors'
   gem "binding_of_caller"

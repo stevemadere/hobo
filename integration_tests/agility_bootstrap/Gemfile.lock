@@ -40,26 +40,26 @@ GIT
 PATH
   remote: ../..
   specs:
-    dryml (2.2.4)
+    dryml (2.2.5)
       actionpack
-      hobo_support (= 2.2.4)
-    hobo (2.2.4)
-      dryml (= 2.2.4)
-      hobo_fields (= 2.2.4)
-      hobo_support (= 2.2.4)
+      hobo_support (= 2.2.5)
+    hobo (2.2.5)
+      dryml (= 2.2.5)
+      hobo_fields (= 2.2.5)
+      hobo_support (= 2.2.5)
       hobo_will_paginate
-    hobo_fields (2.2.4)
-      hobo_support (= 2.2.4)
-    hobo_jquery (2.2.4)
-      hobo_rapid (= 2.2.4)
+    hobo_fields (2.2.5)
+      hobo_support (= 2.2.5)
+    hobo_jquery (2.2.5)
+      hobo_rapid (= 2.2.5)
       jquery-rails (~> 2.0)
-    hobo_jquery_ui (2.2.4)
-      hobo (= 2.2.4)
-      hobo_jquery (= 2.2.4)
+    hobo_jquery_ui (2.2.5)
+      hobo (= 2.2.5)
+      hobo_jquery (= 2.2.5)
       jquery-ui-themes (~> 0.0.4)
-    hobo_rapid (2.2.4)
-      hobo (= 2.2.4)
-    hobo_support (2.2.4)
+    hobo_rapid (2.2.5)
+      hobo (= 2.2.5)
+    hobo_support (2.2.5)
       rails (~> 4.2.4)
 
 GEM
