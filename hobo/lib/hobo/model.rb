@@ -85,8 +85,8 @@ module Hobo
 
     module ClassMethods
 
-      # TODO: should this be an inheriting_cattr_accessor as well? Probably.
-      attr_accessor :creator_attribute
+      inheriting_cattr_accessor :creator_attribute
+
       inheriting_cattr_accessor :name_attribute => Proc.new { |c|
         NAME_FIELD_GUESS.detect {|f| f.in? c.send(:attrib_names) }
       }
