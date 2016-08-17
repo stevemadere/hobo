@@ -104,14 +104,14 @@ gem 'hobo_clean_admin', :path => '#{dev_root}'
 gem 'hobo_jquery', :path => '#{dev_root}'
 gem 'hobo_jquery_ui', :path => '#{dev_root}'
 gem 'protected_attributes'
-gem 'responders', '~> 2.0'
+gem 'responders', '2.1.0'
 )
               end
             else
               file.puts %(
 gem '#{gem}', '= #{version}'
 gem 'protected_attributes'
-gem 'responders', '~> 2.0'
+gem 'responders', '2.1.0'
 )
             end
             if is_hobo
