@@ -3,6 +3,7 @@
     class Taglib
 
       @cache = {}
+      @cache_mutex = Mutex.new
 
       class << self
 
@@ -12,8 +13,10 @@
             if taglib
               taglib.reload
             else
-              taglib = Taglib.new(src_file)
-              @cache[src_file] = taglib
+              new_taglib = Taglib.new(src_file)
+              @cache_mutex.synchronize do
+                taglib = (@cache[src_file] ||= new_taglib)
+              end
             end
             taglib
           end

@@ -37,6 +37,7 @@ module Dryml
   APPLICATION_TAGLIB = { :src => "taglibs/application" }
   CORE_TAGLIB        = { :src => "core", :plugin => "dryml" }
   @cache = {}
+  @cache_mutex = Mutex.new
   extend self
   attr_accessor :last_if
 
@@ -46,6 +47,7 @@ module Dryml
         Taglib.get(:template_dir => File.dirname(f), :src => File.basename(f).remove(".dryml"), :source_template => "_.dryml")
       end
     end
+    Rails.application.config.hobo.cache_taglibs = true
   end
 
   def clear_cache
@@ -86,26 +88,30 @@ module Dryml
   end
 
   def page_renderer(view, identifier, local_names=[], controller_path=nil, imports=nil)
-    controller_path ||= view.controller.controller_path
-    if identifier =~ /#{ID_SEPARATOR}/
-      identifier = identifier.split(ID_SEPARATOR).first
-      @cache[identifier] ||=  make_renderer_class("", "", local_names, taglibs_for(controller_path), imports_for_view(view))
-      @cache[identifier].new(view)
-    else
-      mtime = File.mtime(identifier)
-      renderer_class = @cache[identifier]
-      # do we need to recompile?
-      if (!renderer_class ||                                          # nothing cached?
-          (local_names - renderer_class.compiled_local_names).any? || # any new local names?
-          renderer_class.load_time < mtime)                           # cache out of date?
-        renderer_class = make_renderer_class(File.read(identifier), identifier,
-                                             local_names, taglibs_for(controller_path),
-                                             imports_for_view(view))
-        renderer_class.load_time = mtime
-        @cache[identifier] = renderer_class
+    rv = nil
+    @cache_mutex.synchronize do
+      controller_path ||= view.controller.controller_path
+      if identifier =~ /#{ID_SEPARATOR}/
+        identifier = identifier.split(ID_SEPARATOR).first
+        @cache[identifier] ||=  make_renderer_class("", "", local_names, taglibs_for(controller_path), imports_for_view(view))
+        rv = @cache[identifier].new(view)
+      else
+        mtime = File.mtime(identifier)
+        renderer_class = @cache[identifier]
+        # do we need to recompile?
+        if (!renderer_class ||                                          # nothing cached?
+            (local_names - renderer_class.compiled_local_names).any? || # any new local names?
+            renderer_class.load_time < mtime)                           # cache out of date?
+          renderer_class = make_renderer_class(File.read(identifier), identifier,
+                                               local_names, taglibs_for(controller_path),
+                                               imports_for_view(view))
+          renderer_class.load_time = mtime
+          @cache[identifier] = renderer_class
+        end
+        rv = renderer_class.new(view)
       end
-      renderer_class.new(view)
     end
+    return rv
   end
 
   def get_field(object, field)

@@ -16,8 +16,10 @@ module Dryml
 
     initializer 'dryml' do |app|
       app.config.to_prepare do
-        Dryml.clear_cache
-        Dryml::Taglib.clear_cache
+        unless Rails.application.config.hobo.cache_taglibs
+          Dryml.clear_cache
+          Dryml::Taglib.clear_cache
+        end
       end
     end
 
